@@ -7,30 +7,30 @@ def getValor(txt):
     if(txt == "Iris-virginica"): return 2
 
 # multiplicação de matriz de valores e de pesos somados com bias
-def matrixMul_bias(A, pesos, bias):
-    # C = [[0 for i in range(len(peso[0]))] for i in range(len(A))]    
+def matrixMul_bias(valores, pesos, bias):
+    # C = [[0 for i in range(len(peso[0]))] for i in range(len(valores))]    
     C =[]
-    for i in range(len(A)):
+    for i in range(len(valores)):
         C.append([])
         for j in range(len(pesos[0])):
             C[i].append(0)
 
-    for i in range(len(A)):
+    for i in range(len(valores)):
         for j in range(len(pesos[0])):
             for k in range(len(pesos)):
-                C[i][j] += A[i][k] * pesos[k][j]
+                C[i][j] += valores[i][k] * pesos[k][j]
             C[i][j] += bias[j]
     return C
 
 # multiplicação dos vetores de valores e de pesos somados com bias
-def vecMat_bias(A, pesos, bias):
+def vecMat_bias(valores, pesos, bias):
     C = []
     for i in range(len(pesos[0])):
         C.append(0)
 
     for j in range(len(pesos[0])):
         for k in range(len(pesos)):
-            C[j] += A[k] * pesos[k][j]
+            C[j] += valores[k] * pesos[k][j]
         C[j] += bias[j]
     return C
 
@@ -64,38 +64,31 @@ def sigmoid_2(A, deriv=False):
 
 if __name__ == "__main__":
 
-    with open('iris.data', 'r') as f:
-        dataset = f.read().split()
-        for i in range(len(dataset)):
-            dataset[i] = dataset[i].split(',')
-
-
-    #troca nomes por valores inteiros
-    for linha in dataset:
-        linha[4] = getValor(linha[4])
-        linha[:4] = [float(linha[j]) for j in range(len(linha))]
-
-    random.shuffle(dataset)
-    treinamento = dataset
-    # treinamento = dataset[:int(len(dataset) * 0.8)]
-    testes = dataset[int(len(dataset) * 0.8):]
+    treinamento = [
+        [0, 0, 0],
+        [0, 1, 1],
+        [1, 0, 1],
+        [1, 1, 0]]
+    testes = treinamento
 
     valores_treinamento = []
     resposta_treinamento = []
     for data in treinamento:
-        valores_treinamento.append(data[:4])
-        resposta_treinamento.append(data[4])
+        valores_treinamento.append(data[:2])
+        resposta_treinamento.append(data[2])
 
+    print(valores_treinamento)
+    print(resposta_treinamento)
     valores_teste = []
     resposta_teste = []
     for data in testes:
-        valores_teste.append(data[:4])
-        resposta_teste.append(data[4])
+        valores_teste.append(data[:2])
+        resposta_teste.append(data[2])
 
-    alfa = 0.001
-    epocas = 4000
+    alfa = 0.05
+    epocas = 10
 
-    neuronio = [4, 6, 3] # 4 entradas, 4 neuronios intermediários, 3 valores de saída
+    neuronio = [2, 4, 2] # 4 entradas, 4 neuronios intermediários, 3 valores de saída
 
     pesos1 = []
     pesos2 = []
@@ -128,16 +121,16 @@ if __name__ == "__main__":
             X_2 = sigmoid(h_2)
             
             # Convert to One-hot target
-            target = [0, 0, 0]
+            target = [0, 0]
             target[int(resposta_treinamento[indice])] = 1
-            # print("target ", target)
-            # print("chute ", X_2)
+            print("target ", target)
+            print("chute ", X_2)
 
             # Cost function, Square Root Eror
             erro = 0
-            for i in range(3):
-                erro +=  0.5 * (target[i] - X_2[i]) ** 2 
-            cost_total += erro
+            # for i in range(3):
+            #     erro +=  0.5 * (target[i] - X_2[i]) ** 2 
+            # cost_total += erro
 
             # Backward propagation
             # Update pesos2 and bias2 (layer 2)
@@ -162,8 +155,8 @@ if __name__ == "__main__":
                     bias1[j] -= alfa * delta_1[j]
         
         cost_total /= len(valores_treinamento)
-        if(e % 100 == 0):
-            print(cost_total)
+        #if(e % 100 == 0):
+            #print(cost_total)
 
 
     res = matrixMul_bias(valores_teste, pesos1, bias1)

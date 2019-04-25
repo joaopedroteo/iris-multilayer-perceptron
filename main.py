@@ -57,7 +57,7 @@ def vec_mat_bias(A, B, bias): # Vector (A) x matrix (B) multiplication
     for j in range(len(B[0])):
         for k in range(len(B)):
             C[j] += A[k] * B[k][j]
-            C[j] += bias[j]
+        C[j] += bias[j]
     return C
 
 
@@ -148,7 +148,7 @@ SECTION 3 : Testing
 """
 
 res = matrix_mul_bias(test_X, weight, bias)
-res_2 = matrix_mul_bias(res, weight_2, bias)
+res_2 = matrix_mul_bias(res, weight_2, bias_2)
 
 # Get prediction
 preds = []
