@@ -13,11 +13,11 @@ with open('iris.csv') as csvfile:
     next(csvreader, None) # skip header
     dataset = list(csvreader)
 
-print(dataset)
+# print(dataset)
 
 # Change string value to numeric
 for row in dataset:
-    print(["Iris-setosa", "Iris-versicolor", "Iris-virginica"].index(row[4]))
+    # print(["Iris-setosa", "Iris-versicolor", "Iris-virginica"].index(row[4]))
     row[4] = ["Iris-setosa", "Iris-versicolor", "Iris-virginica"].index(row[4])
     row[:4] = [float(row[j]) for j in range(len(row))]
 
@@ -79,7 +79,7 @@ def sigmoid(A, deriv=False):
 
 # Define parameter
 alfa = 0.005
-epoch = 400
+epoch = 700
 neuron = [4, 4, 3] # number of neuron each layer
 
 # Initiate weight and bias with 0 value

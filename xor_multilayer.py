@@ -85,8 +85,8 @@ if __name__ == "__main__":
         valores_teste.append(data[:2])
         resposta_teste.append(data[2])
 
-    alfa = 0.05
-    epocas = 10
+    alfa = 0.01
+    epocas = 700
 
     neuronio = [2, 4, 2] # 4 entradas, 4 neuronios intermediários, 3 valores de saída
 
@@ -123,8 +123,8 @@ if __name__ == "__main__":
             # Convert to One-hot target
             target = [0, 0]
             target[int(resposta_treinamento[indice])] = 1
-            print("target ", target)
-            print("chute ", X_2)
+            # print("target ", target)
+            # print("chute ", X_2)
 
             # Cost function, Square Root Eror
             erro = 0
@@ -161,7 +161,7 @@ if __name__ == "__main__":
 
     res = matrixMul_bias(valores_teste, pesos1, bias1)
     res_2 = matrixMul_bias(res, pesos2, bias2)
-    print('RESSSSS', res_2)
+    # print('RESSSSS', res_2)
 
     # Get prediction
     preds = []
